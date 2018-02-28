@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+stub="/usr/local/opt/milksteak/etc/milkjar-stub"
+
+function usage(){
+	echo "Usage: milkjar <option> [<args>]"
+	echo
+	echo "Options:"
+	echo "    -i <input file>         Path to the JAR file to be converted"
+	echo "    -o <output file>        Name of your output executable"
+	echo "    -h                      Show this help screen"
+}
+
+while getopts ":i:o:h:" opt; do
+	case "$opt" in
+		i) input=$OPTARG ;;
+    	o) output=$OPTARG ;;
+		h) usage ;;
+		\?) echo "ERROR: invalid option (-${OPTARG})."
+			echo "See 'milkjar -h' for usage info."
+			exit 0
+			;;
+	esac
+done
+
+if [ -z "${input}" ] || [ -z "${output}" ]; then
+	usage
+else
+	cat "${stub}" "${input}" > "${output}" && chmod 755 "${output}"
+fi
+
+shift $(( OPTIND - 1 ))
+exit 0

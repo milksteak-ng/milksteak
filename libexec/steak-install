@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Usage: steak install <package-name>
+# Summary: Install/update a package
+
+set -e
+
+name=$@
+declare -a arr=($@)
+
+for name in "${arr[@]}"
+do
+	steakfile="https://raw.githubusercontent.com/milksteak-ng/steaks/master/packages/${name}"
+	steakdir="/usr/local/opt/milksteak/steaks"
+
+	wget -O ${steakdir}/${name} ${steakfile} -q
+	source ${steakdir}/${name}
+
+	echo -e "The following packages will be installed:"
+	if [[ "${has_deps}" == "true" ]];then
+		echo -e "    ${pkg} ${deps}"
+	else
+		echo -e "    ${pkg}"
+	fi
+
+	while true ; do
+		read -r -p "Do you want to continue [Y/n]? " choice
+		case "$choice" in
+			n|N)	exit 0
+				;;
+			y|Y)	break
+				;;
+			*)		echo -e "Invalid argument."
+				;;
+		esac
+	done
+
+	echo -e "Get: ${url}"
+	getpkg &> /dev/null
+
+	echo -e "Unpacking ${pkg} (from ${tgz})"
+	unpkg &> /dev/null
+
+	function depinst() {
+		brew update
+		brew install --force ${deps} || brew upgrade ${deps}
+		brew unlink ${deps} && brew link --force ${deps}
+	}
+
+	if [[ "${has_deps}" == "true" ]];then
+		echo -e "Setting up dependencies ..."
+		depinst &> /dev/null
+	else
+		:
+	fi
+
+	echo -e "Setting up ${pkg} (${ver}) ..."
+	instpkg &> /dev/null
+done
+
+exit 0

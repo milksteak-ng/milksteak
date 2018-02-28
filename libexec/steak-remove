@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Usage: steak remove <package-name>
+# Summary: Uninstall package
+
+set -e
+
+name=$@
+declare -a arr=($@)
+
+for name in "${arr[@]}"
+do
+	wget -O /tmp/${name} https://raw.githubusercontent.com/milksteak-ng/steaks/master/packages/${name} -q
+	source /tmp/${name}
+
+	echo -e "You are about to remove ${pkg} (${ver})"
+
+	while true ; do
+		read -r -p "Do you want to continue [Y/n]? " choice
+		case "$choice" in
+			n|N)	exit 0
+				;;
+			y|Y)	break
+				;;
+			*)		echo -e "Invalid argument."
+				;;
+		esac
+	done
+
+	uninst
+	
+	rm /tmp/${name}
+
+	echo -e "Removed ${name}"
+done
+
+exit 0

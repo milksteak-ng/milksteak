@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+java_version="$(java -version 2>&1 | head -n 1 | awk -F '"' '{print $2}')"
+java_home="$(/usr/libexec/java_home -v ${java_version})"
+
+myself=`which "$0" 2>/dev/null`
+[ $? -gt 0 -a -f "$0" ] && myself="./$0"
+
+if test -n "${java_home}"; then
+    java="${java_home}/bin/java"
+else
+	java=java
+fi
+
+exec "$java" $java_args -jar ${myself} "$@"
+
+exit 1
+
+# How to use: cat stub.sh helloworld.jar > hello.run && chmod +x helloworld.run
+# Credits: Paolo Di Tommaso
+# https://coderwall.com/p/ssuaxa/how-to-make-a-jar-file-linux-executable

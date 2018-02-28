@@ -1,0 +1,39 @@
+.TH MILKSTEAK 8
+.SH NAME
+milksteak \- the milksteak package manager
+.SH SYNOPSIS
+.B steak
+.RB [ OPTIONS ]
+
+.SH DESCRIPTION
+.B milksteak
+is a simple package manager written in the \s-1BASH\s0 command language for Mac OS X.
+It should technically be able to run on any UNIX-like platform that has the \s-1BASH\s0
+shell installed. It is based on the Bash Package Manager (bpm) but with certain portions
+rewritten and new functionalities added.
+
+.SH OPTIONS
+.TP
+.BR "install <package>"
+Install the selected package from the milksteak repo.
+.TP
+.BR "remove <package>"
+Uninstall the selected package from the system.
+.TP
+.BR "info <package>"
+Get information on the selected package.
+.TP
+.BR "installed"
+List all currently installed packages.
+.TP
+.BR "update"
+Update the milksteak package manager to its latest version.
+.TP
+.BR "nuke"
+Uninstall the milksteak package manager completely.
+.TP
+.BR "commands"
+List all available commands.
+.TP
+.BR "help"
+Show usage info.

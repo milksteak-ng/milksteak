@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# Usage: steak info <package-name>
+# Summary: Get package info
+
+set -e
+
+name=$1
+
+wget -O /tmp/${name} https://raw.githubusercontent.com/milksteak-ng/steaks/master/packages/${name} -q
+source /tmp/${name}
+
+function steak_info() {
+	echo -e "Package:      ${pkg}"
+	echo -e "Version:      ${ver}"
+	echo -e "Homepage:     ${homepage}"
+	echo -e "Description:  ${desc}"
+	echo -e "Dependencies: ${deps}"
+}
+
+steak_info
+rm /tmp/${name}
+
+exit 0

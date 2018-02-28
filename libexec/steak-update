@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Usage: steak update
+# Summary: Update Milksteak
+
+set -e
+
+function update() {
+	cd /usr/local/opt/milksteak
+	git fetch --all
+	git reset --hard origin/master
+}
+
+echo -e "Updating milksteak ..."
+sleep 2 ; update
+echo -e "The milksteak package manager has been updated."
+
+exit 0

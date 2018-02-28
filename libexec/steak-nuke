@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+# Usage: steak nuke
+# Summary: Uninstalls Milksteak completely along with all installed packages.
+
+echo -e "WARNING: This will completely nuke milksteak to oblivion along with all its installed packages. This might have unforseen consequences and leave you with some broken symlinks. It is recommended that you go over the list of installed packages and manually uninstall them before you take this action."
+while true
+do
+	read -r -p "Are you sure you want to uninstall milksteak [Y/n]? " choice
+		case "$choice" in
+		n|N)	exit 0;;
+		y|Y)	break;;
+		*)	echo -e "Invalid argument.";;
+	esac
+done
+
+echo -e "Uninstalling milksteak ..."
+
+unlink /usr/local/bin/steak
+unlink /usr/local/bin/milksteak
+unlink /usr/local/bin/mspkg
+unlink /usr/local/bin/milkjar
+unlink /usr/local/share/man/man5/milkjar.5
+unlink /usr/local/share/man/man8/milksteak.8
+unlink /usr/local/share/man/man8/mspkg.8
+unlink /usr/local/share/man/man8/steak.8
+sudo rm -rf /usr/local/Steakhouse
+rm -rf /usr/local/etc/milksteak
+rm -rf /usr/local/opt/milksteak
+
+# TODO: unlink all symlinks for installed packages as well.
+
+echo -e "Milksteak has been uninstalled."
+
+exit 0

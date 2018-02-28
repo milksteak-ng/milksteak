@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+# milksteak installer
+
+function milksteak_install() {
+	git clone https://github.com/milksteak-ng/milksteak.git /usr/local/opt/milksteak
+
+	sudo mkdir -p /usr/local/Steakhouse
+	sudo chown $USER:wheel /usr/local/Steakhouse
+	mkdir -p /usr/local/etc/milksteak
+	mkdir -p /usr/local/opt/milksteak/steaks
+
+	ln -s /usr/local/opt/milksteak/libexec/steak /usr/local/opt/milksteak/bin/steak
+	ln -s /usr/local/opt/milksteak/libexec/steak /usr/local/bin/steak
+	ln -s /usr/local/opt/milksteak/libexec/steak /usr/local/bin/milksteak
+	ln -s /usr/local/opt/milksteak/libexec/steak /usr/local/bin/mspkg
+	ln -s /usr/local/opt/milksteak/bin/milkjar /usr/local/bin/milkjar
+	ln -s /usr/local/opt/milksteak/share/man/man5/milkjar.5 /usr/local/share/man/man5/milkjar.5
+	ln -s /usr/local/opt/milksteak/share/man/man8/milksteak.8 /usr/local/share/man/man8/milksteak.8
+	ln -s /usr/local/opt/milksteak/share/man/man8/milksteak.8 /usr/local/share/man/man8/mspkg.8
+	ln -s /usr/local/opt/milksteak/share/man/man8/milksteak.8 /usr/local/share/man/man8/steak.8
+}
+
+echo -e "You are about to install the milksteak package manager."
+while true ; do
+	read -r -p "Do you want to continue [Y/n]? " choice
+	case "$choice" in
+		n|N)	exit 0
+			;;
+		y|Y)	break
+			;;
+		*)		echo -e "Invalid argument."
+			;;
+	esac
+done
+
+echo -e "Setting up milksteak ..."
+sleep 2 ; milksteak_install
+echo -e "The milksteak package manager has been successfully installed."
+echo -e "See 'man milksteak' for usage info."
+
+exit 0

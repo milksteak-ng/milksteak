@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Usage: steak installed
+# Summary: List all installed packages
+
+set -e
+
+steakdir="/usr/local/opt/milksteak/steaks"
+ls -1 ${steakdir}
+
+exit 0
